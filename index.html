@@ -45,35 +45,37 @@
   header {
     text-align: center;
     margin-bottom: 24px;
-    padding: 20px;
+    padding: 20px 16px;
     background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     color: white;
     border-radius: var(--radius);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   header h1 {
-    font-size: 1.5rem;
-    margin-bottom: 6px;
+    font-size: 1.4rem;
+    margin-bottom: 2px;
   }
 
   header p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     opacity: 0.9;
   }
 
   .user-badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
     background: rgba(255, 255, 255, 0.2);
     padding: 6px 12px;
     border-radius: 999px;
-    font-size: 0.8rem;
-    display: flex;
+    font-size: 0.75rem;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    margin-top: 4px;
   }
 
   .card {
@@ -503,8 +505,10 @@
 
 <div class="container">
   <header>
-    <h1>5サイクル単語 149個</h1>
-    <p>意味　▷▷▷　単語</p>
+    <div>
+      <h1>5サイクル単語 149個</h1>
+      <p>意味　▷▷▷　単語</p>
+    </div>
     <div id="user-badge" class="user-badge hidden">
       <span id="header-username">ゲスト</span>
       <button class="btn btn-outline btn-sm" style="padding: 2px 8px; font-size: 0.75rem; background: white; color: var(--text);" onclick="logout()">ログアウト</button>
