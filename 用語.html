@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国試単語 149問完全攻略・暗記採点アプリ</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #eff6ff;
+    --success: #16a34a;
+    --success-light: #f0fdf4;
+    --danger: #dc2626;
+    --danger-light: #fef2f2;
+    --warning: #d97706;
+    --warning-light: #fffbeb;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', 'Noto Sans JP', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 16px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    color: white;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+
+  header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .user-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  /* Dashboard Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-box {
+    background: var(--bg);
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .stat-value.mastered { color: var(--success); }
+  .stat-value.weak { color: var(--danger); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .progress-bar-wrap {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--success);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* Setup Controls */
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mode-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .radio-card {
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .radio-card:hover {
+    border-color: #93c5fd;
+  }
+
+  .radio-card.active {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+  }
+
+  .radio-card strong {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .radio-card span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  select, input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    transition: border-color 0.2s;
+  }
+
+  select:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover);
+  }
+
+  .btn-outline {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    background: var(--bg);
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .btn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  /* Quiz Screen */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .question-box {
+    background: var(--bg);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+    margin-bottom: 20px;
+  }
+
+  .question-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .question-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .sub-meaning {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  /* 4-Choice Options */
+  .options-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .option-btn {
+    width: 100%;
+    text-align: left;
+    padding: 14px 18px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+
+  .option-btn.correct {
+    border-color: var(--success);
+    background: var(--success-light);
+    color: #14532d;
+  }
+
+  .option-btn.wrong {
+    border-color: var(--danger);
+    background: var(--danger-light);
+    color: #7f1d1d;
+  }
+
+  .option-btn:disabled {
+    cursor: default;
+  }
+
+  /* Typing Input */
+  .typing-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Feedback Box */
+  .feedback-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 8px;
+    display: none;
+  }
+
+  .feedback-box.correct {
+    display: block;
+    background: var(--success-light);
+    border: 1px solid #86efac;
+    color: #14532d;
+  }
+
+  .feedback-box.wrong {
+    display: block;
+    background: var(--danger-light);
+    border: 1px solid #fca5a5;
+    color: #7f1d1d;
+  }
+
+  .feedback-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .choices-review-box {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .choices-review-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .choice-review-item {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+
+  .choice-review-item.is-correct-item {
+    border-left: 4px solid var(--success);
+    background: #ffffff;
+  }
+
+  .choice-review-item.is-selected-wrong {
+    border-left: 4px solid var(--danger);
+  }
+
+  .choice-review-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .choice-badge {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .choice-badge.correct {
+    background: var(--success);
+    color: white;
+  }
+
+  .choice-badge.wrong {
+    background: var(--danger);
+    color: white;
+  }
+
+  .notice-banner {
+    background: var(--warning-light);
+    border: 1px solid #fcd34d;
+    color: #92400e;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  /* Word List Modal / Tab */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-muted);
+  }
+
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .word-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .word-table th, .word-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+
+  .word-table th {
+    background: var(--bg);
+    font-weight: 700;
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .status-mastered { background: var(--success-light); color: var(--success); }
+  .status-weak { background: var(--danger-light); color: var(--danger); }
+  .status-unseen { background: #f1f5f9; color: #64748b; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .mode-selector { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .stat-value { font-size: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>5サイクル単語 149個</h1>
+    <p>意味　▷▷▷　単語</p>
+    <div id="user-badge" class="user-badge hidden">
+      <span id="header-username">ゲスト</span>
+      <button class="btn btn-outline btn-sm" style="padding: 2px 8px; font-size: 0.75rem; background: white; color: var(--text);" onclick="logout()">ログアウト</button>
+    </div>
+  </header>
+
+  <div id="notice-banner" class="notice-banner"></div>
+
+  <!-- AUTH SCREEN (Login / Register) -->
+  <div id="screen-auth" class="card">
+    <div class="section-title" id="auth-title">🔐 ログインして学習を始める</div>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+      アカウントを作成すると学習記録が保存され、管理者は全体の進捗を確認できます。
+    </p>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+      <div>
+        <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px;">ユーザーID / メールアドレス</label>
+        <input type="text" id="auth-user" placeholder="例: student1 または admin">
+      </div>
+      <div>
+        <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px;">パスワード</label>
+        <input type="password" id="auth-pass" placeholder="パスワードを入力">
+      </div>
+      <div id="admin-secret-wrap" class="hidden">
+        <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: var(--danger);">管理者の場合のみ（合言葉）</label>
+        <input type="password" id="auth-admin-secret" placeholder="管理者合言葉を入力">
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <button class="btn btn-primary" onclick="handleLogin()">ログインする</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+        <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="toggleAuthMode()" id="toggle-auth-btn">新規登録はこちら</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER (Hidden until login) -->
+  <div id="main-app-container" class="hidden">
+    <!-- Navigation Tabs -->
+    <div class="tabs" id="main-tabs">
+      <button class="tab-btn active" onclick="switchTab('home')">クイズ設定・進捗</button>
+      <button class="tab-btn" onclick="switchTab('list')">全単語一覧・習得状況</button>
+      <button class="tab-btn hidden" id="admin-tab-btn" onclick="switchTab('admin')">👑 管理者ダッシュボード</button>
+    </div>
+
+    <!-- HOME / SETUP SCREEN -->
+    <div id="screen-home">
+      <div class="card">
+        <div class="section-title">📊 あなたの学習進捗（全<span id="total-count-label">0</span>語）</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+          習得率: <strong id="mastery-percent">0%</strong>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value mastered" id="stat-mastered">0</div>
+            <div class="stat-label">習得済み</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value weak" id="stat-weak">0</div>
+            <div class="stat-label">要復習（誤答）</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="stat-unseen">0</div>
+            <div class="stat-label">未学習</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <button class="btn btn-outline btn-sm" id="reset-btn" onclick="resetProgress()">学習記録をリセット</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">1. 出題形式を選ぶ</div>
+        <div class="mode-selector" id="answer-type-selector">
+          <div class="radio-card active" data-val="choice" onclick="selectAnswerType('choice')">
+            <strong>🔘 4択クイズモード</strong>
+            <span>紛らわしい4つの選択肢から選ぶ（テンポ重視）</span>
+          </div>
+          <div class="radio-card" data-val="typing" onclick="selectAnswerType('typing')">
+            <strong>⌨️ 記述入力モード</strong>
+            <span>キーボードで直接単語を入力して採点（本番対策）</span>
+          </div>
+        </div>
+
+        <div class="section-title">2. 出題範囲・コースを選ぶ</div>
+        <div style="margin-bottom: 16px;">
+          <select id="category-select">
+            <option value="ALL">全問チャレンジ（登録されている全単語）</option>
+            <option value="RANDOM10">ランダム10問テスト（スキマ時間用）</option>
+            <option value="RANDOM30">ランダム30問テスト（実力チェック）</option>
+            <option value="WEAK">🔥 要復習（間違えた問題）だけ集中特訓</option>
+            <option value="UNSEEN">🆕 未学習の単語だけ出題</option>
+            <optgroup label="分野別（全6ジャンル）">
+              <option value="1. 経営・ビジネス・マーケティング戦略">1. 経営・ビジネス・マーケティング戦略</option>
+              <option value="2. プロジェクトマネジメント・システム開発・テスト">2. プロジェクトマネジメント・システム開発・テスト</option>
+              <option value="3. 情報セキュリティ・ネットワーク・Web">3. 情報セキュリティ・ネットワーク・Web</option>
+              <option value="4. ハードウェア・システム構成・信頼性">4. ハードウェア・システム構成・信頼性</option>
+              <option value="5. 法務・コンプライアンス・標準化">5. 法務・コンプライアンス・標準化</option>
+              <option value="6. データベース・データ分析・その他技術用語">6. データベース・データ分析・その他技術用語</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="shuffle-check" checked style="width: 18px; height: 18px;">
+          <label for="shuffle-check" style="font-size: 0.95rem; cursor: pointer;">出題順をシャッフルする</label>
+        </div>
+
+        <button class="btn btn-primary" onclick="startQuiz()">🚀 クイズをスタートする</button>
+      </div>
+    </div>
+
+    <!-- WORD LIST SCREEN -->
+    <div id="screen-list" class="hidden">
+      <div class="card">
+        <div class="section-title">📖 全単語リスト＆習得ステータス</div>
+        <div style="margin-bottom: 12px;">
+          <input type="text" id="search-input" placeholder="単語や意味で検索..." oninput="renderWordList()">
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="word-table">
+            <thead>
+              <tr>
+                <th style="width: 15%;">状態</th>
+                <th style="width: 30%;">単語</th>
+                <th style="width: 55%;">意味</th>
+              </tr>
+            </thead>
+            <tbody id="word-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD SCREEN -->
+    <div id="screen-admin" class="hidden">
+      <div class="card">
+        <div class="section-title">👑 管理者ダッシュボード（利用者の学習状況）</div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+          このサイトを利用している全ユーザーの学習進捗および、単語ごとの正答率統計を確認できます。
+        </p>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 24px;">
+          <div class="stat-box">
+            <div class="stat-value" id="admin-total-users">0</div>
+            <div class="stat-label">登録利用者数</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value mastered" id="admin-avg-rate">0%</div>
+            <div class="stat-label">全体平均習得率</div>
+          </div>
+        </div>
+
+        <div class="section-title" style="font-size: 0.95rem;">👥 利用者一覧とステータス</div>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="word-table">
+            <thead>
+              <tr>
+                <th>ユーザー名</th>
+                <th>習得済み</th>
+                <th>要復習</th>
+                <th>未学習</th>
+                <th>習得率</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="section-title" style="font-size: 0.95rem;">⚠️ 全体でみんなが間違えやすい単語ランキング（要復習が多い順）</div>
+        <div style="overflow-x: auto;">
+          <table class="word-table">
+            <thead>
+              <tr>
+                <th>順位</th>
+                <th>単語名</th>
+                <th>分野</th>
+                <th>要復習（苦手にしている人数）</th>
+              </tr>
+            </thead>
+            <tbody id="admin-ranking-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="screen-quiz" class="hidden">
+      <div class="card">
+        <div class="quiz-header">
+          <div>
+            <span class="badge" id="q-category">分野名</span>
+            <span style="font-weight: 700; margin-left: 8px;" id="q-counter">1 / 10</span>
+          </div>
+          <div>
+            <span style="font-size: 0.9rem; color: var(--success); font-weight: 700;">正解: <span id="q-score">0</span></span>
+            <button class="btn btn-outline btn-sm" id="quit-btn" style="margin-left: 8px;" onclick="quitQuiz()">中断する</button>
+          </div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-label">次の意味に当てはまる用語を答えなさい</div>
+          <div class="question-text" id="q-meaning">意味文がここに入ります</div>
+          <div class="sub-meaning" id="q-sub-meaning"></div>
+        </div>
+
+        <!-- 4-Choice Container -->
+        <div id="choice-container" class="options-list"></div>
+
+        <!-- Typing Container -->
+        <div id="typing-container" class="typing-area hidden">
+          <input type="text" id="typing-input" placeholder="単語を入力（例: SWOT分析, BCP, 意匠権 など）" autocomplete="off">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">※アルファベットは大文字・小文字どちらでも自動判定されます</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="btn btn-primary" id="submit-typing-btn" onclick="checkTypingAnswer()">採点する（Enter）</button>
+            <button class="btn btn-outline" id="reveal-typing-btn" onclick="revealTypingAnswer()" style="border-color: var(--warning); color: var(--warning);">💡 答えを見る</button>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedback-box" class="feedback-box">
+          <div class="feedback-title" id="feedback-title">⭕ 正解！</div>
+          <div id="feedback-detail"></div>
+          <div id="choices-review-area" class="choices-review-box hidden"></div>
+        </div>
+
+        <div style="margin-top: 20px;" id="next-btn-wrap" class="hidden">
+          <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">次の問題へ ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="screen-result" class="hidden">
+      <div class="card" style="text-align: center;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 8px;">🎉 お疲れさまでした！</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">今回の採点結果は以下の通りです</p>
+
+        <div style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">
+          <span id="res-score">0</span> <span style="font-size: 1.2rem; color: var(--text-muted);">/ <span id="res-total">0</span> 問正解</span>
+        </div>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 24px;">
+          正答率: <span id="res-rate">0%</span>
+        </div>
+
+        <div id="wrong-review-section" style="text-align: left; margin-bottom: 24px;" class="hidden">
+          <div class="section-title" style="color: var(--danger);">❌ 今回間違えた単語（復習リスト）</div>
+          <div style="overflow-x: auto;">
+            <table class="word-table">
+              <thead>
+                <tr>
+                  <th style="width: 32%;">正解の単語</th>
+                  <th style="width: 68%;">意味</th>
+                </tr>
+              </thead>
+              <tbody id="wrong-list-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="btn-grid">
+          <button class="btn btn-primary" id="retry-wrong-btn" onclick="retryWrongOnly()">🔥 間違えた問題だけ再挑戦</button>
+          <button class="btn btn-outline" onclick="goHome()">🏠 ホームに戻る</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 全149語データベース
+const RAW_DATA = [
+  // 1. 経営・ビジネス・マーケティング戦略
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "3C分析", m1: "顧客・競合他社・自社の3つ指標から、経営環境の現状分析し経営戦略に活用する", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BCP", m1: "障害発生時の事業継続計画", m2: "災害など発生したとしても事業を継続させる計画" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BPM", m1: "業務改善・改革に関する活動を継続的に実施していくこと", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BPO", m1: "自社業務の一部を他の業者に委託すること", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BPR", m1: "業務処理上の問題点を改革し効率を上げる", m2: "プロセスの観点から業務フローや組織構造、情報システムなどを再構築し、業務改革すること" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BSC", m1: "財務、顧客、業務プロセス、学習と成長、の四つの視点で業績評価", m2: "4つの視点(財務,顧客,業務プロセス,学習と成長)に基づいて業績を評価する方法" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "BTO", m1: "顧客からの受注があってから生産を行う", m2: "注文を受けてから生産する受注生産の方式" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "CEO", m1: "最高経営責任者", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "CIO", m1: "最高情報責任者", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "CRM", m1: "顧客との商談取引強化のための関係管理", m2: "顧客との関係・情報を管理・分析し維持する施策" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "CSF", m1: "目標達成のための重要成功要因", m2: "目標・目的を達成する上で決定的な影響を与える要因" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "CSR", m1: "企業が社会貢献を目的として掲げる経営理念", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ERP", m1: "経営資源を統合管理し効率性を高めるためのソフトウェアパッケージ", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "M&A", m1: "企業間の合併や買収", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "MRP", m1: "生産計画にもとづき、資材の必要量を算出する", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "OEM", m1: "製造した製品を、他社のブランド名で販売する生産提携", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "Off-JT", m1: "実業務とは別に研修期間を設定して、業務スキルを学ぶ", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "OJT", m1: "実務に携わりながらスキルを身に着ける研修の形式", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "PPM", m1: "花形、金のなる木、問題児、負け犬の4つのエリアで、位置づけを分析", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "RFI", m1: "利用者から開発者に向けた、情報提供依頼書", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "RFP", m1: "利用者から開発者に向けた、システム提案に関する依頼書", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "SCM", m1: "流通のシステム管理を行い、コストを削減する", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "SFA", m1: "営業活動を支援するシステム", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "SWOT分析", m1: "内部環境の強み弱みと、外部環境の機会と脅威で自社の経営環境を分析", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "TCO", m1: "ソフトウェアの企画開発から導入運用に必要となるすべての費用", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "アライアンス", m1: "企業間の協力関係の総称", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "イノベータ理論", m1: "新規製品やサービスに対する顧客の購入時期の分類", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "インセンティブ制度", m1: "社員の業務意欲向上のために設けられる成功報酬", m2: "人々の物事に対する意欲を引き出す外部から与えられる要因" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "競争地位別戦略", m1: "業界内における自社の位置づけに合わせた戦略", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "コアコンピタンス", m1: "企業が経営を行う上での中核となる技術", m2: "企業の活動分野において「競合他社を圧倒的に上まわるレベルの能力」「競合他社に真似できない核となる能力」" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "コーポレートガバナンス", m1: "企業活動を監視し、透明性、健全性をチェックする仕組み", m2: "企業の不正行為の防止と競争力・収益力の向上を総合的にとらえ、長期的な企業価値の増大に向けた企業経営の仕組み" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "コンカレントエンジニアリング", m1: "開発期間短縮のために、開発段階を同時並行的に行う開発手法", m2: "設計から生産に至るまでの各工程を同時並行的に行うことで、開発期間や納期の短縮や生産の効率化などを進める手法" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "コンプライアンス", m1: "企業が法律や内部規定に沿って活動すること", m2: "企業が法令を守った活動を行うこと" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ジャストインタイム生産", m1: "余剰在庫を抱えないために必要量を必要な時に調達する", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ナレッジマネジメント", m1: "個人の持つノウハウを、社内全体でスキル共有すること", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ファシリティマネジメント", m1: "企業の保有資産を最適な状態に保つ考え方", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ファブレス", m1: "自社工場を持たずに外部に製造を委託する", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ブルーオーシャン戦略", m1: "競争の激しい市場を避け、競争のない未開拓市場を切り開いていく経営戦略", m2: "" },
+  { cat: "1. 経営・ビジネス・マーケティング戦略", term: "ロングテール", m1: "売上の少ない商品をネット上で長期販売", m2: "" },
+
+  // 2. プロジェクトマネジメント・システム開発・テスト
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "DFD", m1: "業務上のプロセス間のデータの流れを表現する図解", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "E-R図", m1: "データベース設計に活用する、データの関係性を表現する図解", m2: "エンティティの関係性を表現する図解" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "FP法", m1: "機能に点数を付けて、開発規模を見積もる", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "HTML", m1: "既定のタグを使用し、WEBページを作成するための言語", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "ITIL", m1: "ITビジネス成功のためのノウハウをまとめた成功事例", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "PMBOK", m1: "プロジェクトマネジメントの業界標準", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "WBS", m1: "作業分解構成図", m2: "プロジェクトチームが実行すべき作業を、成果物を主体に階層的に要素分解したもの" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "XML", m1: "データフォーマットに関する独自のタグを定義できるマークアップ言語", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "アローダイアグラム", m1: "作業の進行順序、日程計画を表現する図解", m2: "作業の順序関係と所要時間を表現する日程計画図" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "インシデント管理", m1: "顧客の環境上で発生した障害の復旧を第一とする活動", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "ウォーターフォールモデル", m1: "開発工程の流れ通りに後戻りしないように開発を進める", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "ガントチャート", m1: "作業の予定と実績を記入し進捗管理に活用する", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "クリティカルパス", m1: "アローダイアグラム上で作業時間に余裕のない経路", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "スパイラルモデル", m1: "サブシステムレベルでの開発を繰り返すことで、少人数でも大規模開発可能", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "プロトタイプモデル", m1: "開発の早い段階で試作品をユーザに提示しシステムの完成度を高める", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "ブラックボックステスト", m1: "内部処理構造は見ずに、入力と出力の関係でテストを行う", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "ホワイトボックステスト", m1: "処理構造に着目してテストケースを設計し、通過順の正当性をテストする", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "マイルストーン", m1: "作業進行上の重要な節目", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "問題管理", m1: "インシデントの根本原因解決のための活動", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "サービスデスク", m1: "ユーザからの連絡の受付窓口", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "フォワードエンジニアリング", m1: "元々存在する設計書、仕様書の技術的内容を新しい製品の開発に活かすこと", m2: "" },
+  { cat: "2. プロジェクトマネジメント・システム開発・テスト", term: "リバースエンジニアリング", m1: "他社の製品を分解・解析し、製造技術などの情報を獲得して自社製品に応用すること", m2: "" },
+
+  // 3. 情報セキュリティ・ネットワーク・Web
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "BYOD", m1: "私物のパソコン・スマートホン・タブレット型端末などを社内業務で活用すること", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "CA", m1: "暗号化に使用する鍵の正当性を保証する、証明書を発行する認証局", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "CSIRT", m1: "セキュリティ上の問題に対し、監視・原因究明・影響範囲の調査を行う組織", m2: "セキュリティ的なインシデントの情報収集や実際にインシデントが発生した際に対応するチーム" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "IDS", m1: "不正侵入を検知し管理者に通知するシステム", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "IoT", m1: "様々な産業機器や家電機器をインターネットに接続する技術", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "IPS", m1: "不正侵入を検知した場合、直ちに通信を遮断するなどの防御システム", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "IrDA", m1: "赤外線通信インターフェース", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "RFID", m1: "ICタグの情報を電波や電磁波により読み取る仕組み", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "RSS", m1: "Webページの見出しや要約、更新時間等を記述する形式", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "SaaS", m1: "インターネット経由でソフトウェアの部分的機能を別個に配信", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "SEO", m1: "検索エンジンのキーワード検索において上位に表示されるように最適化", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "SLA", m1: "サービス提供側と利用者の間の合意書", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "SNS", m1: "友人、知人、家族間などのコミュニケーションサービスを提供するWebサイト", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "SOA", m1: "業務処理をソフトウェア利用のサービスの組み合わせで構築する", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "URL", m1: "インターネット上に公開されているWebページのアドレス表現", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "WAF", m1: "Webサイト上のアプリケーションに特化したファイアウォール", m2: "Webアプリケーションの脆弱性を狙った攻撃からWebサイトを保護するセキュリティ対策" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "アクセシビリティ", m1: "身体的障害や、年齢に関係なく使いやすい設計であること", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "アフィリエイト", m1: "Webページにバナー広告を掲載する等による広告収入", m2: "個人のホームページ上の広告から商品購入に結び付けることによる報酬" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "クラウドコンピューティング", m1: "サーバー上のソフトウェアやデータをインターネットを通じて活用する", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "デジタルデバイド", m1: "IT関連機器に接する機会の違いにより生じる格差", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "デジタルフォレンジックス", m1: "サイバー犯罪の原因究明に、必要な情報を収集して分析", m2: "サイバー犯罪の証拠を明らかにするために、原因究明に必要な情報を収集して分析" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "バイオメトリクス認証", m1: "身体的な特徴を利用するセキュリティ認証", m2: "身体的な特徴や行動の特性など個人に固有の情報を利用するセキュリティ認証" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "ハウジングサービス", m1: "Webサイトの運営において、ユーザが用意したハードウェアを管理運用", m2: "Webサイト等の運営において、ユーザが用意した設備の運用を外部に委託する" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "バリアフリー", m1: "高齢者、障害者が、活動する上での障壁を取り除くこと", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "ファイアウォール", m1: "不正アクセスから守るためのソフトウェア的な仕組み(壁)", m2: "" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "ホスティングサービス", m1: "Webサイトの運営において、ハードウェアを貸し出して管理運用", m2: "Webサイト等の運営において、ハードウェア及び設置施設を提供する" },
+  { cat: "3. 情報セキュリティ・ネットワーク・Web", term: "ユニバーサルデザイン", m1: "障害の有無や年齢、性別、人種などに関係なく、利用しやすい設計", m2: "国や文化、性別や年齢、障害の有無に関係なく、だれでもわかる設計" },
+
+  // 4. ハードウェア・システム構成・信頼性
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "DRAM", m1: "主記憶(メインメモリ)として活用される記憶素子", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "MTBF", m1: "稼働率計算において、故障と故障の間（正常稼働）の時間の平均", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "MTTR", m1: "稼働率計算において、故障発生時の復旧にかかる時間（平均）", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "RAIDシステム", m1: "ハードディスクの多重化により、アクセスの高速化、信頼性の向上", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "RASIS", m1: "コンピュータシステムを評価する5つの指標", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "SRAM", m1: "キャッシュメモリ用に活用される記憶素子", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "UPS", m1: "非常時にシステム上の重要な機能を維持するためのバッテリー", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "稼働率", m1: "システムが一定期間の中で正常に稼働した割合", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "キャッシュメモリ", m1: "CPUの動作を高速化するための記憶装置", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "スプーリング", m1: "低速の出力装置にデータを送り出す際に、ハードディスクに貯める", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "スループット", m1: "システムの一定時間内のデータ処理量", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "ターンアラウンドタイム", m1: "ユーザが処理要求した内容のすべてが出力されるまでの時間", m2: "利用者がシステムに処理要求を開始してから、すべての結果を受け取るまでに要する時間" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "チェックディジット", m1: "入力時の読み取りエラーを即時に検出するための検査けた", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "デュアルシステム", m1: "2系統のシステムで同じ処理を行い、結果を照合することで精度を高める", m2: "同じ処理を2組のコンピュータシステムで行い、その結果を照合機でチェックしながら処理を進行していくシステム構成" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "デュプレックスシステム", m1: "主系の異常時に従系に切り替えて処理続行", m2: "主系と従系からなる2系列の処理システム構成" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フールプルーフ", m1: "例外的な操作でもシステムが停止しない設計", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フェールセーフ", m1: "システム障害発生時に安全重視で機能を停止", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フェールソフト", m1: "システムの障害発生時に必要最低限の機能を維持する", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フォールトアボイダンス", m1: "システムが故障停止すること自体を排除する考え方", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フォールトトレラント", m1: "システムに障害が発生しても停止することなく稼働を続け、復旧を図るようにシステムを設計する考え方", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "フラッシュメモリ", m1: "USBメモリやSDメモリカード等の外部記憶装置の総称", m2: "電気的に書き換え可能であり、電源を切ってもデータが消えない半導体メモリ" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "メモリインタリーブ", m1: "メモリアドレスをバンク単位に分割し平行アクセス", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "レスポンスタイム", m1: "ユーザの要求に対し、システムが結果出力を開始するまでの時間", m2: "処理の実行指示を与えてから最初の応答を得るまでの時間" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "ロールバック", m1: "ソフトウェア的障害により、更新前ログを活用して処理をやり直す", m2: "" },
+  { cat: "4. ハードウェア・システム構成・信頼性", term: "ロールフォワード", m1: "ハードウェア的障害により、更新後ログを活用して障害直前まで復旧", m2: "" },
+
+  // 5. 法務・コンプライアンス・標準化
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ISMS", m1: "社内セキュリティ維持のために、具体的な基本方針や目標の設定を行う", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ISO", m1: "国際的な様々なサービスを、円滑に行うための標準化事項を定めていく団体", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ISO14000", m1: "環境マネジメントの国際標準", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ISO27000", m1: "セキュリティマネジメントに関する国際標準", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ISO9000", m1: "品質管理の国際標準", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "ITガバナンス", m1: "情報システムを適正に活用し、経営戦略の実現を支援", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "NDA", m1: "業務上で知った秘密を第3者に開示しない秘密保持契約", m2: "機密保持契約" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "PL法", m1: "製造物賠償責任法", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "個人情報保護法", m1: "企業が業務上で収集した、個人情報の活用に関する制限を定めた法律", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "不正アクセス禁止法", m1: "個人のID、パスワードの悪用を規制する", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "不正競争防止法", m1: "企業秘密、アイデアを盗むなどの行為を規制する", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "プロバイダ責任制限法", m1: "インターネットサービス事業者の責任が、状況により一部免責されることを定めている法律", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "意匠権", m1: "物の装飾やデザインに関する権利", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "実用新案権", m1: "物品の形状、構造または組み合わせに関する考案", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "商標権", m1: "商品の目印となるマークや商品名自体を保護する権利", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "著作権", m1: "文書や絵などの、個人的な創作物を保護する", m2: "思想または感情を創作物に表現したものや、その作成者の権利を保護する法律" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "特許権", m1: "高度な発明やアイデアを登録することにより発生する権利", m2: "" },
+  { cat: "5. 法務・コンプライアンス・標準化", term: "リスクマネジメント", m1: "業務上の障害となる事象の発生確率や影響度を評価し、対策を講じること", m2: "" },
+
+  // 6. データベース・データ分析・その他技術用語
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ASP", m1: "インターネット上でソフトウェアを提供する事業者", m2: "インターネットを介したサービスやその提供業者" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ICT", m1: "コンピュータを活用した情報通信コミュニケーション技術のこと", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "PDCAサイクル", m1: "企画・実行・評価・改善のサイクルのこと", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "PDF", m1: "主に文書を画像形式で配布する目的のフォーマット", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "PLC", m1: "新しい製品が市場に出現してから、消失するまでのサイクル", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "POSシステム", m1: "販売時点情報管理", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "RFM分析", m1: "最終購入日、購入回数、購買金額の評価点により、顧客を分類", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "OSS", m1: "プログラム記述が公開されており、再配布や改造が可能なソフトウェア", m2: "オリジナルの著作権が守られており、ダウンロード、改変、再配布が自由なソフトウェア" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "パレート図", m1: "出現頻度の降順に並べた棒グラフと、折れ線グラフの組合せで重点を見る", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ブレーンストーミング", m1: "批判厳禁、自由奔放、質より量、結合便乗のルールで進める会議の技法", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "データウェアハウス", m1: "データベースから業務上で必要となるデータを収集してまとめる", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "データマート", m1: "目的別データベースでありあらかじめ集計処理をし、検索時間を短縮する", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "データマイニング", m1: "データベースに登録されている内容を活用して、複合的事象の分析を行う", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "デファクトスタンダード", m1: "公的機関の標準ではないが、利用者が多いなど実質的な世界標準", m2: "世界標準と定められてはいないが、多数の利用状況から標準と判断できる" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ステークホルダ", m1: "プロジェクトの成否に関わる利害関係者", m2: "プロジェクトの成功、不成功により利害のある関係者" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "職務分掌", m1: "業務上の権限を特定の人物に集中させないこと", m2: "発生するリスクを減らし、業務が正しく行われるように各担当者の職責と権限を適切に分離すること" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ストレージサービス", m1: "インターネットを経由する記憶領域の貸し出しサービス", m2: "" },
+  { cat: "6. データベース・データ分析・その他技術用語", term: "ユーザビリティ", m1: "システム利用者の感じる使いやすさ、満足度", m2: "利用者の感じる使いやすさ" }
+];
+
+// ID付与
+const WORDS = RAW_DATA.map((item, idx) => ({ id: idx, ...item }));
+
+// State
+let currentUser = null; // { username: string, isAdmin: boolean }
+let isRegisterMode = false;
+let allUsersData = {}; // { username: { password: string, isAdmin: boolean, progress: { id: 'mastered'|'weak' } } }
+let answerType = 'choice'; // 'choice' | 'typing'
+let quizQueue = [];
+let currentIndex = 0;
+let score = 0;
+let wrongItems = [];
+let answeredCurrent = false;
+let currentChoiceOptions = [];
+let resetConfirmTimer = null;
+let quitConfirmTimer = null;
+
+// 初期化
+function init() {
+  const savedUsers = localStorage.getItem('kokushi_149_users');
+  if (savedUsers) {
+    try { allUsersData = JSON.parse(savedUsers); } catch (e) {}
+  } else {
+    // 初期サンプル管理者と学生を作成
+    allUsersData = {
+      "admin": { password: "adminpassword123", isAdmin: true, progress: {} },
+      "student1": { password: "password", isAdmin: false, progress: { 0: "mastered", 1: "mastered", 2: "weak" } }
+    };
+    saveAllUsers();
+  }
+
+  // ログインセッションの復元
+  const sessionUser = sessionStorage.getItem('kokushi_149_session');
+  if (sessionUser && allUsersData[sessionUser]) {
+    currentUser = { username: sessionUser, isAdmin: allUsersData[sessionUser].isAdmin };
+    enterApp();
+  }
+
+  // Enterキー対応
+  document.getElementById('typing-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      if (!answeredCurrent) {
+        checkTypingAnswer();
+      } else {
+        nextQuestion();
+      }
+    }
+  });
+}
+
+function saveAllUsers() {
+  localStorage.setItem('kokushi_149_users', JSON.stringify(allUsersData));
+}
+
+function toggleAuthMode() {
+  isRegisterMode = !isRegisterMode;
+  const title = document.getElementById('auth-title');
+  const btn = document.getElementById('toggle-auth-btn');
+  const adminWrap = document.getElementById('admin-secret-wrap');
+
+  if (isRegisterMode) {
+    title.textContent = '📝 新規アカウント登録';
+    btn.textContent = 'ログイン画面に戻る';
+    adminWrap.classList.remove('hidden');
+  } else {
+    title.textContent = '🔐 ログインして学習を始める';
+    btn.textContent = '新規登録はこちら';
+    adminWrap.classList.add('hidden');
+  }
+}
+
+function handleLogin() {
+  const userBox = document.getElementById('auth-user');
+  const passBox = document.getElementById('auth-pass');
+  const username = userBox.value.trim();
+  const password = passBox.value.trim();
+
+  if (!username || !password) {
+    showNotice('ユーザーIDとパスワードを入力してください。');
+    return;
+  }
+
+  if (isRegisterMode) {
+    if (allUsersData[username]) {
+      showNotice('このユーザーIDはすでに使われています。別のIDにしてください。');
+      return;
+    }
+    const adminSecret = document.getElementById('admin-auth-secret') ? document.getElementById('admin-auth-secret').value.trim() : document.getElementById('auth-admin-secret').value.trim();
+    let makeAdmin = false;
+    if (adminSecret === 'souruiito120') {
+      makeAdmin = true;
+    }
+
+    allUsersData[username] = {
+      password: password,
+      isAdmin: makeAdmin,
+      progress: {}
+    };
+    saveAllUsers();
+    currentUser = { username: username, isAdmin: makeAdmin };
+    showNotice(makeAdmin ? '管理者として新規登録しました！' : '新規登録が完了しました！');
+  } else {
+    if (!allUsersData[username] || allUsersData[username].password !== password) {
+      showNotice('ユーザーIDまたはパスワードが間違っています。');
+      return;
+    }
+    currentUser = { username: username, isAdmin: allUsersData[username].isAdmin };
+  }
+
+  sessionStorage.setItem('kokushi_149_session', currentUser.username);
+  enterApp();
+}
+
+function logout() {
+  sessionStorage.removeItem('kokushi_149_session');
+  currentUser = null;
+  document.getElementById('screen-auth').classList.remove('hidden');
+  document.getElementById('main-app-container').classList.add('hidden');
+  document.getElementById('user-badge').classList.add('hidden');
+  document.getElementById('auth-user').value = '';
+  document.getElementById('auth-pass').value = '';
+}
+
+function enterApp() {
+  document.getElementById('screen-auth').classList.add('hidden');
+  document.getElementById('main-app-container').classList.remove('hidden');
+  
+  const badge = document.getElementById('user-badge');
+  document.getElementById('header-username').textContent = `${currentUser.username} (${currentUser.isAdmin ? '👑 管理者' : '利用者'})`;
+  badge.classList.remove('hidden');
+
+  const adminTab = document.getElementById('admin-tab-btn');
+  if (currentUser.isAdmin) {
+    adminTab.classList.remove('hidden');
+  } else {
+    adminTab.classList.add('hidden');
+  }
+
+  document.getElementById('total-count-label').textContent = WORDS.length;
+  updateStats();
+  renderWordList();
+  switchTab('home');
+}
+
+function saveProgress() {
+  if (!currentUser) return;
+  if (!allUsersData[currentUser.username]) {
+    allUsersData[currentUser.username] = { password: "", isAdmin: currentUser.isAdmin, progress: {} };
+  }
+  // 現在のユーザーの進捗を更新
+  const progressMap = getCurrentProgressMap();
+  allUsersData[currentUser.username].progress = progressMap;
+  saveAllUsers();
+  updateStats();
+}
+
+function getCurrentProgressMap() {
+  if (!currentUser || !allUsersData[currentUser.username]) return {};
+  return allUsersData[currentUser.username].progress || {};
+}
+
+function updateStats() {
+  const progressMap = getCurrentProgressMap();
+  let mastered = 0;
+  let weak = 0;
+  WORDS.forEach(w => {
+    if (progressMap[w.id] === 'mastered') mastered++;
+    else if (progressMap[w.id] === 'weak') weak++;
+  });
+  const unseen = WORDS.length - mastered - weak;
+  const pct = Math.round((mastered / WORDS.length) * 100);
+
+  document.getElementById('stat-mastered').textContent = mastered;
+  document.getElementById('stat-weak').textContent = weak;
+  document.getElementById('stat-unseen').textContent = unseen;
+  document.getElementById('mastery-percent').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function showNotice(msg) {
+  const banner = document.getElementById('notice-banner');
+  banner.textContent = msg;
+  banner.style.display = 'block';
+  setTimeout(() => { banner.style.display = 'none'; }, 3500);
+}
+
+function resetProgress() {
+  const btn = document.getElementById('reset-btn');
+  if (btn.dataset.confirm !== 'true') {
+    btn.dataset.confirm = 'true';
+    btn.textContent = '本当にリセットする？（もう一度押す）';
+    btn.style.borderColor = 'var(--danger)';
+    btn.style.color = 'var(--danger)';
+    clearTimeout(resetConfirmTimer);
+    resetConfirmTimer = setTimeout(() => {
+      btn.dataset.confirm = '';
+      btn.textContent = '学習記録をリセット';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 3000);
+    return;
+  }
+  btn.dataset.confirm = '';
+  btn.textContent = '学習記録をリセット';
+  btn.style.borderColor = '';
+  btn.style.color = '';
+
+  if (currentUser && allUsersData[currentUser.username]) {
+    allUsersData[currentUser.username].progress = {};
+    saveAllUsers();
+  }
+  updateStats();
+  renderWordList();
+  showNotice('学習記録をリセットしました。');
+}
+
+function switchTab(tab) {
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(b => b.classList.remove('active'));
+
+  document.getElementById('screen-home').classList.add('hidden');
+  document.getElementById('screen-list').classList.add('hidden');
+  document.getElementById('screen-admin').classList.add('hidden');
+
+  if (tab === 'home') {
+    btns[0].classList.add('active');
+    document.getElementById('screen-home').classList.remove('hidden');
+  } else if (tab === 'list') {
+    btns[1].classList.add('active');
+    document.getElementById('screen-list').classList.remove('hidden');
+    renderWordList();
+  } else if (tab === 'admin' && currentUser && currentUser.isAdmin) {
+    if (btns[2]) btns[2].classList.add('active');
+    document.getElementById('screen-admin').classList.remove('hidden');
+    renderAdminDashboard();
+  }
+}
+
+function renderAdminDashboard() {
+  const usernames = Object.keys(allUsersData);
+  document.getElementById('admin-total-users').textContent = usernames.length;
+
+  let totalMasteredSum = 0;
+  let userTableHtml = '';
+
+  usernames.forEach(uname => {
+    const uData = allUsersData[uname];
+    const prog = uData.progress || {};
+    let m = 0, w = 0;
+    WORDS.forEach(wd => {
+      if (prog[wd.id] === 'mastered') m++;
+      else if (prog[wd.id] === 'weak') w++;
+    });
+    const uUnseen = WORDS.length - m - w;
+    const uPct = Math.round((m / WORDS.length) * 100);
+    totalMasteredSum += uPct;
+
+    userTableHtml += `
+      <tr>
+        <td style="font-weight: 700;">${uname} ${uData.isAdmin ? '👑' : ''}</td>
+        <td style="color: var(--success); font-weight: 700;">${m} 語</td>
+        <td style="color: var(--danger); font-weight: 700;">${w} 語</td>
+        <td>${uUnseen} 語</td>
+        <td style="font-weight: 700; color: var(--primary);">${uPct}%</td>
+      </tr>
+    `;
+  });
+
+  const avgPct = usernames.length > 0 ? Math.round(totalMasteredSum / usernames.length) : 0;
+  document.getElementById('admin-avg-rate').textContent = avgPct + '%';
+  document.getElementById('admin-users-tbody').innerHTML = userTableHtml;
+
+  // 単語ごとの苦手人数（要復習になっている人数）を集計
+  const weakCountMap = {}; // { wordId: count }
+  WORDS.forEach(wd => { weakCountMap[wd.id] = 0; });
+
+  usernames.forEach(uname => {
+    const prog = allUsersData[uname].progress || {};
+    Object.keys(prog).forEach(wid => {
+      if (prog[wid] === 'weak') {
+        if (weakCountMap[wid] !== undefined) weakCountMap[wid]++;
+      }
+    });
+  });
+
+  // 要復習が多い順にソート
+  const sortedWords = [...WORDS].sort((a, b) => weakCountMap[b.id] - weakCountMap[a.id]);
+  const topRanked = sortedWords.slice(0, 15); // 上位15件
+
+  let rankingHtml = '';
+  topRanked.forEach((wd, index) => {
+    const count = weakCountMap[wd.id];
+    rankingHtml += `
+      <tr>
+        <td style="font-weight: 700; text-align: center;">${index + 1}位</td>
+        <td style="font-weight: 700; color: var(--danger);">${wd.term}</td>
+        <td><small style="color: var(--text-muted);">${wd.cat.replace(/^\d+\.\s*/, '')}</small></td>
+        <td style="font-weight: 700;">${count} 人が苦戦中</td>
+      </tr>
+    `;
+  });
+  document.getElementById('admin-ranking-tbody').innerHTML = rankingHtml;
+}
+
+function selectAnswerType(type) {
+  answerType = type;
+  document.querySelectorAll('#answer-type-selector .radio-card').forEach(el => {
+    el.classList.toggle('active', el.dataset.val === type);
+  });
+}
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function startQuiz(customQueue = null) {
+  if (customQueue) {
+    quizQueue = customQueue;
+  } else {
+    const cat = document.getElementById('category-select').value;
+    const shuffle = document.getElementById('shuffle-check').checked;
+    const progressMap = getCurrentProgressMap();
+    let pool = [];
+
+    if (cat === 'ALL') {
+      pool = [...WORDS];
+    } else if (cat === 'RANDOM10') {
+      pool = shuffleArray(WORDS).slice(0, 10);
+    } else if (cat === 'RANDOM30') {
+      pool = shuffleArray(WORDS).slice(0, 30);
+    } else if (cat === 'WEAK') {
+      pool = WORDS.filter(w => progressMap[w.id] === 'weak');
+      if (pool.length === 0) {
+        showNotice('現在「要復習（間違えた問題）」はありません！素晴らしいです！');
+        return;
+      }
+    } else if (cat === 'UNSEEN') {
+      pool = WORDS.filter(w => !progressMap[w.id]);
+      if (pool.length === 0) {
+        showNotice('未学習の単語はありません！すべて一度は学習済みです。');
+        return;
+      }
+    } else {
+      pool = WORDS.filter(w => w.cat === cat);
+    }
+
+    if (shuffle && cat !== 'RANDOM10' && cat !== 'RANDOM30') {
+      pool = shuffleArray(pool);
+    }
+    quizQueue = pool;
+  }
+
+  currentIndex = 0;
+  score = 0;
+  wrongItems = [];
+
+  document.getElementById('main-tabs').classList.add('hidden');
+  document.getElementById('screen-home').classList.add('hidden');
+  document.getElementById('screen-list').classList.add('hidden');
+  document.getElementById('screen-admin').classList.add('hidden');
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answeredCurrent = false;
+  const item = quizQueue[currentIndex];
+
+  document.getElementById('q-category').textContent = item.cat.replace(/^\d+\.\s*/, '');
+  document.getElementById('q-counter').textContent = `${currentIndex + 1} / ${quizQueue.length} 問目`;
+  document.getElementById('q-score').textContent = score;
+  document.getElementById('q-meaning').textContent = item.m1;
+  document.getElementById('q-sub-meaning').textContent = item.m2 ? `（補足：${item.m2}）` : '';
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box';
+  fb.style.display = 'none';
+  document.getElementById('choices-review-area').classList.add('hidden');
+  document.getElementById('choices-review-area').innerHTML = '';
+  document.getElementById('next-btn-wrap').classList.add('hidden');
+
+  if (answerType === 'choice') {
+    document.getElementById('choice-container').classList.remove('hidden');
+    document.getElementById('typing-container').classList.add('hidden');
+    renderChoices(item);
+  } else {
+    document.getElementById('choice-container').classList.add('hidden');
+    document.getElementById('typing-container').classList.remove('hidden');
+    const input = document.getElementById('typing-input');
+    input.value = '';
+    input.disabled = false;
+    document.getElementById('submit-typing-btn').disabled = false;
+    document.getElementById('reveal-typing-btn').disabled = false;
+    setTimeout(() => input.focus(), 50);
+  }
+}
+
+function renderChoices(correctItem) {
+  let sameCat = WORDS.filter(w => w.id !== correctItem.id && w.cat === correctItem.cat);
+  let otherCat = WORDS.filter(w => w.id !== correctItem.id && w.cat !== correctItem.cat);
+  let distractors = shuffleArray(sameCat).slice(0, 3);
+  if (distractors.length < 3) {
+    distractors = distractors.concat(shuffleArray(otherCat).slice(0, 3 - distractors.length));
+  }
+
+  const options = shuffleArray([correctItem, ...distractors]);
+  currentChoiceOptions = options;
+  const container = document.getElementById('choice-container');
+  container.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span>${opt.term}</span><span class="opt-mark"></span>`;
+    btn.onclick = () => checkChoiceAnswer(opt, btn, correctItem);
+    container.appendChild(btn);
+  });
+}
+
+function checkChoiceAnswer(selected, btnEl, correctItem) {
+  if (answeredCurrent) return;
+  answeredCurrent = true;
+
+  const isCorrect = selected.id === correctItem.id;
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    const text = b.querySelector('span').textContent;
+    if (text === correctItem.term) {
+      b.classList.add('correct');
+      b.querySelector('.opt-mark').textContent = '⭕';
+    }
+  });
+
+  if (!isCorrect) {
+    btnEl.classList.add('wrong');
+    btnEl.querySelector('.opt-mark').textContent = '❌';
+  }
+
+  handleResult(isCorrect, correctItem, selected.term, selected.id);
+}
+
+function normalizeStr(s) {
+  return s.trim()
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/－|ー|‐/g, '-')
+    .replace(/＆/g, '&')
+    .replace(/\s+/g, '')
+    .toLowerCase();
+}
+
+function checkTypingAnswer() {
+  if (answeredCurrent) return;
+  const input = document.getElementById('typing-input');
+  const userVal = input.value;
+  if (!userVal.trim()) {
+    input.focus();
+    return;
+  }
+
+  answeredCurrent = true;
+  input.disabled = true;
+  document.getElementById('submit-typing-btn').disabled = true;
+  document.getElementById('reveal-typing-btn').disabled = true;
+
+  const correctItem = quizQueue[currentIndex];
+  const isCorrect = normalizeStr(userVal) === normalizeStr(correctItem.term);
+
+  handleResult(isCorrect, correctItem, userVal, null);
+}
+
+function revealTypingAnswer() {
+  if (answeredCurrent) return;
+  answeredCurrent = true;
+  const input = document.getElementById('typing-input');
+  input.disabled = true;
+  document.getElementById('submit-typing-btn').disabled = true;
+  document.getElementById('reveal-typing-btn').disabled = true;
+
+  const correctItem = quizQueue[currentIndex];
+  
+  // 進捗更新
+  const progressMap = getCurrentProgressMap();
+  progressMap[correctItem.id] = 'weak';
+  saveProgress();
+  wrongItems.push(correctItem);
+
+  const fb = document.getElementById('feedback-box');
+  const fbTitle = document.getElementById('feedback-title');
+  const fbDetail = document.getElementById('feedback-detail');
+
+  fb.className = 'feedback-box wrong';
+  fbTitle.textContent = '💡 正解はこちら';
+  fbDetail.innerHTML = `正解は <strong>${correctItem.term}</strong> です。<br>しっかり確認して次に進みましょう！`;
+  fb.style.display = 'block';
+
+  const nextWrap = document.getElementById('next-btn-wrap');
+  const nextBtn = document.getElementById('next-btn');
+  nextWrap.classList.remove('hidden');
+  nextBtn.textContent = (currentIndex + 1 >= quizQueue.length) ? '結果を見る 🏆' : '次の問題へ ➔';
+}
+
+function handleResult(isCorrect, correctItem, userAnswer, selectedId) {
+  const fb = document.getElementById('feedback-box');
+  const fbTitle = document.getElementById('feedback-title');
+  const fbDetail = document.getElementById('feedback-detail');
+  const reviewArea = document.getElementById('choices-review-area');
+
+  const progressMap = getCurrentProgressMap();
+
+  if (isCorrect) {
+    score++;
+    document.getElementById('q-score').textContent = score;
+    progressMap[correctItem.id] = 'mastered';
+    fb.className = 'feedback-box correct';
+    fbTitle.textContent = '⭕ 正解！';
+    fbDetail.innerHTML = `<strong>${correctItem.term}</strong> を正しく答えられました。`;
+  } else {
+    progressMap[correctItem.id] = 'weak';
+    wrongItems.push(correctItem);
+    fb.className = 'feedback-box wrong';
+    fbTitle.textContent = '❌ 不正解…';
+    fbDetail.innerHTML = `あなたの解答: 「${userAnswer}」<br>正解は <strong>${correctItem.term}</strong> です。`;
+  }
+
+  saveProgress();
+
+  if (answerType === 'choice' && currentChoiceOptions.length > 0) {
+    reviewArea.innerHTML = `
+      <div class="choices-review-title">📖 選択肢に登場した用語の意味まとめ</div>
+      ${currentChoiceOptions.map(opt => {
+        const isAns = opt.id === correctItem.id;
+        const isPickedWrong = !isCorrect && opt.id === selectedId;
+        let itemClass = 'choice-review-item';
+        let badgeHtml = '';
+        if (isAns) {
+          itemClass += ' is-correct-item';
+          badgeHtml = '<span class="choice-badge correct">正解</span>';
+        } else if (isPickedWrong) {
+          itemClass += ' is-selected-wrong';
+          badgeHtml = '<span class="choice-badge wrong">あなたの選択</span>';
+        }
+        return `
+          <div class="${itemClass}">
+            <div class="choice-review-header">
+              <span>${opt.term}</span>
+              ${badgeHtml}
+            </div>
+            <div>${opt.m1}${opt.m2 ? `<div style="font-size:0.8rem; color:#64748b; margin-top:2px;">（補足：${opt.m2}）</div>` : ''}</div>
+          </div>
+        `;
+      }).join('')}
+    `;
+    reviewArea.classList.remove('hidden');
+  } else {
+    reviewArea.classList.add('hidden');
+  }
+
+  fb.style.display = 'block';
+
+  const nextWrap = document.getElementById('next-btn-wrap');
+  const nextBtn = document.getElementById('next-btn');
+  nextWrap.classList.remove('hidden');
+  nextBtn.textContent = (currentIndex + 1 >= quizQueue.length) ? '結果を見る 🏆' : '次の問題へ ➔';
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex < quizQueue.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function quitQuiz() {
+  const btn = document.getElementById('quit-btn');
+  if (btn.dataset.confirm !== 'true') {
+    btn.dataset.confirm = 'true';
+    btn.textContent = '本当に中断？（もう一度押す）';
+    btn.style.borderColor = 'var(--danger)';
+    btn.style.color = 'var(--danger)';
+    clearTimeout(quitConfirmTimer);
+    quitConfirmTimer = setTimeout(() => {
+      btn.dataset.confirm = '';
+      btn.textContent = '中断する';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 3000);
+    return;
+  }
+  btn.dataset.confirm = '';
+  btn.textContent = '中断する';
+  btn.style.borderColor = '';
+  btn.style.color = '';
+  goHome();
+}
+
+function showResult() {
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+
+  const total = quizQueue.length;
+  const rate = Math.round((score / total) * 100);
+
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-total').textContent = total;
+  document.getElementById('res-rate').textContent = rate + '%';
+
+  const wrongSec = document.getElementById('wrong-review-section');
+  const retryBtn = document.getElementById('retry-wrong-btn');
+  const tbody = document.getElementById('wrong-list-body');
+
+  if (wrongItems.length > 0) {
+    wrongSec.classList.remove('hidden');
+    retryBtn.classList.remove('hidden');
+    tbody.innerHTML = wrongItems.map(item => `
+      <tr>
+        <td style="font-weight: 700; color: var(--danger);">${item.term}</td>
+        <td>${item.m1}${item.m2 ? '<br><small style="color:#64748b;">' + item.m2 + '</small>' : ''}</td>
+      </tr>
+    `).join('');
+  } else {
+    wrongSec.classList.add('hidden');
+    retryBtn.classList.add('hidden');
+  }
+}
+
+function retryWrongOnly() {
+  if (wrongItems.length > 0) {
+    startQuiz(shuffleArray(wrongItems));
+  }
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('main-tabs').classList.remove('hidden');
+  switchTab('home');
+  updateStats();
+}
+
+function renderWordList() {
+  const query = normalizeStr(document.getElementById('search-input').value || '');
+  const tbody = document.getElementById('word-table-body');
+  const progressMap = getCurrentProgressMap();
+
+  const filtered = WORDS.filter(w => {
+    if (!query) return true;
+    return normalizeStr(w.term).includes(query) ||
+           normalizeStr(w.m1).includes(query) ||
+           normalizeStr(w.m2).includes(query);
+  });
+
+  tbody.innerHTML = filtered.map(w => {
+    const st = progressMap[w.id];
+    let pill = '<span class="status-pill status-unseen">未学習</span>';
+    if (st === 'mastered') pill = '<span class="status-pill status-mastered">習得済</span>';
+    else if (st === 'weak') pill = '<span class="status-pill status-weak">要復習</span>';
+
+    return `
+      <tr>
+        <td>${pill}</td>
+        <td style="font-weight: 700;">${w.term}</td>
+        <td>${w.m1}${w.m2 ? '<div style="font-size:0.8rem; color:#64748b;">' + w.m2 + '</div>' : ''}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>
